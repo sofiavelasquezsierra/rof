@@ -7,8 +7,11 @@ import {
   text,
   timestamp,
   varchar,
+  pgTable, 
+  serial,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
+
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same

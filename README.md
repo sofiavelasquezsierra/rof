@@ -37,3 +37,10 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 5.1. OCR API
 6. Club Dashboard
 7. Reports
+
+
+to install:
+
+- npm i -D daisyui@latest
+- npm install @neondatabase/serverless
+- npm install drizzle-orm neon dotenv
