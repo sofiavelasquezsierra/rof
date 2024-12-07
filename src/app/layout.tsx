@@ -15,9 +15,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+    <html lang="en">
+      <body className={`font-sans`}>
+        <div className="w-full">Main Navbar - Edit !!</div>
+        {children}
       </body>
     </html>
   );
