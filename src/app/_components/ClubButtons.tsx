@@ -1,5 +1,5 @@
 "use client";
-import { SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 
@@ -8,14 +8,16 @@ const ClubButtons = () => {
     <div className="mt-10 flex flex-row items-center justify-center space-x-10">
       {/* Club Button */}
       <div className="text-center">
-        <button
-          className="btn rounded-lg bg-red-500 px-6 py-3 font-bold text-white hover:bg-red-700"
-          onClick={() => console.log("Redirect to Club Page")} // Replace with actual redirect logic
-        >
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-        </button>
+        <SignedIn>
+          <div className="bg-coral text-white font-bold px-6 py-3 rounded-lg">Click the button to Verify!</div>
+        </SignedIn>
+        <SignedOut>
+          <Link href="/sign-in">
+            <button className="btn btn-primary px-6 py-3 font-bold text-white hover:bg-secondary">
+              Sign In
+            </button>
+          </Link>
+        </SignedOut>
         <p className="mt-2 text-gray-600">
           As a club, scan student IDs and manage registered students.
         </p>
