@@ -3,7 +3,7 @@ import { SignedOut, SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 
-const ClubButtons = () => {
+const StudentButtons = () => {
   return (
     <div className="mt-10 flex flex-row items-center justify-center space-x-10">
       {/* Club Button */}
@@ -42,4 +42,4 @@ const ClubButtons = () => {
   );
 };
 
-export default ClubButtons;
+export default StudentButtons;

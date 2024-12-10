@@ -1,5 +1,5 @@
 import React from "react";
-import ClubButtons from "../_components/ClubButtons";
+import StudentButtons from "../_components/StudentButtons";
 
 const StudentsPage = () => {
   return (
@@ -7,7 +7,7 @@ const StudentsPage = () => {
       <div className="flex text-center items-center justify-center pt-10">
         <h1 className="text-4xl font-bold text-primary">Students</h1>
       </div>
-      <ClubButtons />
+      <StudentButtons />
     </div>
   );
 };

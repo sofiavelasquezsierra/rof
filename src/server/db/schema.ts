@@ -76,4 +76,3 @@ export const studentClubsRelations = relations(studentClubs, ({ one }) => ({
     references: [clubs.clubId], // Primary key in `clubs`
   }),
 }));
-
