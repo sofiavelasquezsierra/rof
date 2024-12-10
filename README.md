@@ -29,14 +29,14 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
 
 ## TO DO
-1. Setup PostgreSQL
-2. Create Skeleton
-3. Home Page & Global CSS
-4. User Authentication
-5. Student Registration Page / Club Registration
-5.1. OCR API
-6. Club Dashboard
-7. Reports
+1. []Setup PostgreSQL
+2. [x]Create Skeleton
+3. []Home Page & Global CSS
+4. []User Authentication
+5. []Student Registration Page / Club Registration
+5.1. []OCR API
+6. []Club Dashboard
+7. []Reports
 
 
 to install:

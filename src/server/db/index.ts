@@ -8,6 +8,6 @@ import { config } from "dotenv";
 config({ path: ".env" }); // or .env.local
 
 const sql = neon(process.env.POSTGRES_URL!);
-//export const db = drizzle({ client: sql });
-export const db = drizzle(sql); // Initialize Drizzle ORM with Neon
-//export const db = drizzle(conn, { schema });
+
+export const db = drizzle(sql, {schema}); // Initialize Drizzle ORM with Neon
+
