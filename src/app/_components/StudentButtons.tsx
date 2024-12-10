@@ -22,7 +22,7 @@ const StudentButtons = () => {
       {/* Student Button */}
       <SignedIn>
         <div className="text-center">
-          <Link href="/student/verify">
+          <Link href="/verify">
             <button
               className="btn rounded-lg border-2 border-black px-6 py-3 font-bold text-black hover:bg-gray-200"
               onClick={() => console.log("Redirect to Student Page")} // Replace with actual redirect logic
