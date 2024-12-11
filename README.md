@@ -44,3 +44,4 @@ to install:
 - npm i -D daisyui@latest
 - npm install @neondatabase/serverless
 - npm install drizzle-orm neon dotenv
+- npm install uploadthing @uploadthing/react
