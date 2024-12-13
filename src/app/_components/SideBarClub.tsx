@@ -44,7 +44,7 @@ const SideBarClub: React.FC = () => {
       onMouseLeave={() => setExpanded(false)}
     >
       <div className="flex flex-col h-full p-2">
-        <h1 className={`text-lg font-bold p-4 ${expanded ? "block" : "hidden"}`}>Menu</h1>
+        <h1 className={`text-lg font-bold p-4 text-center ${expanded ? "block" : "hidden"}`}>Menu</h1>
         <ul className="flex flex-col gap-4 mt-4">
           {!hasClub && (
             <li>
@@ -80,7 +80,7 @@ const SideBarClub: React.FC = () => {
             </Link>
           </li>
           <li>
-            <Link href="/register-student">
+            <Link href="/register">
               <button className="btn btn-accent w-full" title="Register Student">
                 {expanded ? "Register Student" : "R"}
               </button>
