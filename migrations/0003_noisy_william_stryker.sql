@@ -1,0 +1,1 @@
+ALTER TABLE "rof_student" DROP COLUMN "student_id";

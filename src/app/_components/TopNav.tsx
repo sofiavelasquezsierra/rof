@@ -29,11 +29,11 @@ export function TopNav() {
         </Link>
       </div>
       <div className="navbar-end">
-        <div className="btn btn-primary">
+        <div className="flex gap-2">
           <SignedOut>
-            <SignInButton>
-              Sign In
-            </SignInButton>
+            <Link href="/sign-in">
+              <button className="btn btn-primary text-l">Sign In</button>
+            </Link>
           </SignedOut>
 
           <SignedIn>

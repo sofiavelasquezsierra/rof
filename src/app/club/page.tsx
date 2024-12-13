@@ -7,6 +7,8 @@ interface User {
   fname: string;
   lname: string;
   email: string;
+  year: string;
+  role: string;
 }
 
 export async function UsersPage() {

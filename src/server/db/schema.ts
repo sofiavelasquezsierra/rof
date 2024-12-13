@@ -22,7 +22,7 @@ export const createTable = pgTableCreator((name) => `rof_${name}`);
 
 
 export const students = createTable("student", {
-  id: varchar("id", { length: 255 })
+  student_id: varchar("student_id", { length: 255 })
     .notNull()
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -33,6 +33,8 @@ export const students = createTable("student", {
     mode: "date",
     withTimezone: true,
   }).default(sql`CURRENT_TIMESTAMP`),
+  role: varchar("role", { length: 255 }).notNull(),
+  year: varchar("year", { length: 255 }).notNull(),
 });
 
 
@@ -40,11 +42,13 @@ export const students = createTable("student", {
 export const clubs = createTable("club", {
   clubId: varchar("club_id", { length: 255 }).notNull().primaryKey(),
   clubName: varchar("club_name", { length: 255 }).notNull(),
+  adminEmail: varchar("admin_email", { length: 255 }).notNull(),
+  
 });
 
 
 export const studentClubs = createTable("student_clubs", {
-  studentId: varchar("id").notNull(),
+  studentId: varchar("student_id").notNull(),
   clubId: varchar("club_id").notNull(),
 },
 (table) => ({
@@ -69,7 +73,7 @@ export const clubsRelations = relations(clubs, ({ many }) => ({
 export const studentClubsRelations = relations(studentClubs, ({ one }) => ({
   student: one(students, {
     fields: [studentClubs.studentId], // Foreign key in `studentClubs`
-    references: [students.id], // Primary key in `students`
+    references: [students.student_id], // Primary key in `students`
   }),
   club: one(clubs, {
     fields: [studentClubs.clubId], // Foreign key in `studentClubs`

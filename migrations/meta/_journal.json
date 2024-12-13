@@ -15,6 +15,34 @@
       "when": 1733791370166,
       "tag": "0001_secret_blur",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734059118290,
+      "tag": "0002_omniscient_vision",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1734059282944,
+      "tag": "0003_noisy_william_stryker",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1734059434810,
+      "tag": "0004_solid_randall",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1734059642144,
+      "tag": "0005_sticky_toad",
+      "breakpoints": true
     }
   ]
 }
