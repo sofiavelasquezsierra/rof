@@ -29,7 +29,7 @@ export default {
           secondary: "#aeb8feff", //Pink
           accent: "#f1f2f6ff", //White
           neutral: "#f1555dff", //Red
-          coral: "f68e93ff", //Coral
+          info: "f68e93ff", //Coral
         },
       }
     ]
