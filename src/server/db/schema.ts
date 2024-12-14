@@ -21,18 +21,12 @@ import {
 export const createTable = pgTableCreator((name) => `rof_${name}`);
 
 
-export const students = createTable("student", {
-  student_id: varchar("student_id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+export const students = pgTable("student", {
+  student_id: varchar("student_id", { length: 255 }).notNull().primaryKey(),
   fname: varchar("fname", { length: 255 }).notNull(),
   lname: varchar("lname", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("email_verified", {
-    mode: "date",
-    withTimezone: true,
-  }).default(sql`CURRENT_TIMESTAMP`),
+  emailVerified: timestamp("email_verified", { withTimezone: true }),
   role: varchar("role", { length: 255 }).notNull(),
   year: varchar("year", { length: 255 }).notNull(),
 });
