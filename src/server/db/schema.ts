@@ -9,6 +9,7 @@ import {
   varchar,
   pgTable, 
   serial,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 
@@ -21,7 +22,7 @@ import {
 export const createTable = pgTableCreator((name) => `rof_${name}`);
 
 
-export const students = pgTable("student", {
+export const students = createTable("student", {
   student_id: varchar("student_id", { length: 255 }).notNull().primaryKey(),
   fname: varchar("fname", { length: 255 }).notNull(),
   lname: varchar("lname", { length: 255 }).notNull(),
@@ -43,7 +44,7 @@ export const clubs = createTable("club", {
 
 export const studentClubs = createTable("student_clubs", {
   studentId: varchar("student_id").notNull(),
-  clubId: varchar("club_id").notNull(),
+  clubId: uuid("club_id").notNull(),
 },
 (table) => ({
   compositePk: primaryKey(table.studentId, table.clubId), // Define composite primary key

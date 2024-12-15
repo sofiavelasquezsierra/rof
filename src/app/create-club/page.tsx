@@ -2,6 +2,7 @@ import React from "react";
 import { CreateClub } from "../_components/CreateClub"; // Ensure the correct import path
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import SideBarClub from "../_components/SideBarClub";
 
 export default async function CreatePage() {
   const authResult = await auth();
@@ -14,6 +15,7 @@ export default async function CreatePage() {
 
   return (
     <div>
+        <SideBarClub />
       <CreateClub />
     </div>
   );
