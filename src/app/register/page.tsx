@@ -1,10 +1,21 @@
-import React from 'react'
-import Registraion from '../_components/Registration'
+import React from "react";
+import RegisterForm from "../_components/RegisterForm";
+import SideBarClub from "../_components/SideBarClub";
 
-const Register = () => {
+const RegisterStudentPage = () => {
   return (
-    <Registraion />
-  )
-}
+    <div className="flex">
+      {/* Sidebar */}
+      <SideBarClub />
 
-export default Register
+      {/* Main Content */}
+      <main
+        className={`flex-1 transition-all duration-300 ml-16 md:ml-64 p-6`}
+      >
+        <RegisterForm />
+      </main>
+    </div>
+  );
+};
+
+export default RegisterStudentPage;
