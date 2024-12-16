@@ -43,6 +43,13 @@
       "when": 1734059642144,
       "tag": "0005_sticky_toad",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1734377450725,
+      "tag": "0006_harsh_korath",
+      "breakpoints": true
     }
   ]
 }
