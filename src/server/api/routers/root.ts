@@ -1,5 +1,6 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { clubsRouter } from "./clubs";
+import { analyticsRouter } from "./analytics"
 import { clubs } from "~/server/db/schema";
 
 /**
@@ -9,6 +10,7 @@ import { clubs } from "~/server/db/schema";
  */
 export const appRouter = createTRPCRouter({
   clubs: clubsRouter,
+  analytics: analyticsRouter,
 });
 
 // export type definition of API
