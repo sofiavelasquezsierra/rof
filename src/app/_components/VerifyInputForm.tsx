@@ -2,14 +2,38 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import React, { useState } from "react";
 import Link from "next/link";
+import { api } from "~/trpc/react";
 
-const InputForm: React.FC = () => {
+const VerifyStudent: React.FC = () => {
   const [userID, setUserID] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [clubs, setClubs] = useState<string[]>([]);
+  const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [clubName, setClubName] = useState<string | null>(null);
+
+  const fetchStudentClubMutation = api.students.getStudentClub.useMutation({
+    onSuccess: (data) => {
+      setClubName(data.clubName);
+      setShowModal(true); // Show confirmation modal
+      setError("");
+    },
+    onError: (err) => {
+      setError(err.message || "Failed to fetch club. Please try again.");
+      setSuccessMessage("");
+    },
+  });
+
+  const confirmMembershipMutation = api.students.confirmStudentMembership.useMutation({
+    onSuccess: (data) => {
+      setSuccessMessage(data.message);
+      setError("");
+      setShowModal(false); // Close the modal on success
+    },
+    onError: (err) => {
+      setError(err.message || "Failed to confirm membership. Please try again.");
+    },
+  });
 
   const handleUserIDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,10 +62,13 @@ const InputForm: React.FC = () => {
       return;
     }
 
-    // Mock data for clubs; replace with actual fetch from API
-    const registeredClubs = ["Art Club", "Music Club", "Coding Club"];
-    setClubs(registeredClubs);
-    setShowModal(true);
+    fetchStudentClubMutation.mutate({ studentId: userID, email });
+  };
+
+  const handleConfirmMembership = () => {
+    if (clubName) {
+      confirmMembershipMutation.mutate({ studentId: userID, email });
+    }
   };
 
   return (
@@ -50,46 +77,11 @@ const InputForm: React.FC = () => {
         <div className="mt-10 flex justify-center">
           <button
             className="btn bg-blue-500 px-6 py-3 font-bold text-white hover:bg-blue-700"
-            onClick={() => setShowAdminModal(true)}
+            onClick={() => setShowModal(true)}
           >
             Admin Popup
           </button>
         </div>
-
-        {/* Admin Modal */}
-        {showAdminModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
-              <h2 className="mb-4 text-center text-2xl font-bold text-gray-800">
-                Admin Notice
-              </h2>
-              <p className="mb-6 text-center text-gray-600">
-                If you're signed in, you should be only acting as a club admin.
-                Please sign out using the top right corner if you're a student.
-                If you're a club admin, click the button below!
-              </p>
-              <div className="flex justify-center space-x-4">
-                <Link href="/club">
-                  <button
-                    className="btn bg-red-500 px-6 py-3 font-bold text-white hover:bg-red-700"
-                    onClick={() => {
-                      setShowAdminModal(false);
-                      console.log("Redirect to Club Page"); // Replace with actual redirect logic
-                    }}
-                  >
-                    I’m a Club
-                  </button>
-                </Link>
-                <button
-                  onClick={() => setShowAdminModal(false)}
-                  className="btn bg-gray-300 px-6 py-3 text-gray-700 hover:bg-gray-400"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </SignedIn>
       <SignedOut>
         <div className="mt-10 flex justify-center">
@@ -98,7 +90,7 @@ const InputForm: React.FC = () => {
             className="w-96 rounded bg-secondary p-8 text-black shadow-lg"
           >
             <h1 className="mb-6 text-center text-2xl font-bold text-white">
-              User Form
+              Verify Student
             </h1>
             <div className="form-control mb-4">
               <label className="label">
@@ -125,42 +117,36 @@ const InputForm: React.FC = () => {
               />
             </div>
             {error && <p className="mb-4 text-error">{error}</p>}
+            {successMessage && (
+              <p className="mb-4 text-green-500">{successMessage}</p>
+            )}
             <button type="submit" className="btn btn-primary w-full">
               Submit
             </button>
           </form>
 
-          {/* Clubs Modal */}
+          {/* Confirmation Modal */}
           {showModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
-                <h2 className="mb-4 text-xl font-bold">Registered Clubs</h2>
-                {clubs.length > 0 ? (
-                  <table className="table w-full">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Club Name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {clubs.map((club, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{club}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p>No clubs found.</p>
-                )}
-                <div className="mt-4 flex justify-end">
+                <h2 className="mb-4 text-xl font-bold">Confirm Membership</h2>
+                <p>
+                  You have been registered in{" "}
+                  <span className="font-semibold text-primary">{clubName}</span>.
+                  Do you agree to join this club?
+                </p>
+                <div className="mt-6 flex justify-between">
+                  <button
+                    onClick={handleConfirmMembership}
+                    className="btn btn-success"
+                  >
+                    Yes, I Agree
+                  </button>
                   <button
                     onClick={() => setShowModal(false)}
                     className="btn btn-secondary"
                   >
-                    Close
+                    No, Cancel
                   </button>
                 </div>
               </div>
@@ -172,4 +158,4 @@ const InputForm: React.FC = () => {
   );
 };
 
-export default InputForm;
+export default VerifyStudent;

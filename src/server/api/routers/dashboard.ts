@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { eq, and } from "drizzle-orm";
+import { eq, and, isNull } from "drizzle-orm";
 import { clubs, studentClubs, students } from "~/server/db/schema";
 import {
     createTRPCRouter,
@@ -58,6 +58,7 @@ import {
           email: students.email,
           role: students.role,
           year: students.year,
+          emailVerified: students.emailVerified,
         })
         .from(students)
         .innerJoin(studentClubs, eq(students.student_id, studentClubs.studentId))
@@ -115,5 +116,7 @@ import {
 
       return { success: true, message: "Student removed successfully" };
     }),
+
+    
   });
   
