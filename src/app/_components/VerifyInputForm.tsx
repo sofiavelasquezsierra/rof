@@ -1,3 +1,4 @@
+// Sofia Velasquez-Sierra
 "use client";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import React, { useState } from "react";

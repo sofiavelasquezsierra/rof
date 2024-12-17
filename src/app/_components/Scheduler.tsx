@@ -1,7 +1,7 @@
 "use client";
+// Aditya Makijha
 import React, { useState } from "react";
 import { api } from "~/trpc/react";
-import { Scheduler } from "timers/promises";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
@@ -42,17 +42,17 @@ const EventManager = () => {
   }
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Manage Club Events</h2>
+    <div className="mx-auto max-w-4xl p-4">
+      <h2 className="mb-4 text-2xl font-bold">Manage Club Events</h2>
 
-      <form onSubmit={handleCreateEvent} className="space-y-4 mb-6">
+      <form onSubmit={handleCreateEvent} className="mb-6 space-y-4">
         <div>
           <label className="block font-medium">Event Name</label>
           <input
             type="text"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full rounded border p-2"
             placeholder="Enter event name"
             required
           />
@@ -63,7 +63,7 @@ const EventManager = () => {
             type="datetime-local"
             value={eventDate}
             onChange={(e) => setEventDate(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full rounded border p-2"
             required
           />
         </div>
@@ -72,7 +72,9 @@ const EventManager = () => {
           className="btn btn-primary w-full"
           disabled={createEventMutation.status === "pending"}
         >
-          {createEventMutation.status === "pending" ? "Creating..." : "Create Event"}
+          {createEventMutation.status === "pending"
+            ? "Creating..."
+            : "Create Event"}
         </button>
       </form>
 
@@ -80,24 +82,41 @@ const EventManager = () => {
       {error && <p className="text-red-500">{error}</p>}
 
       {/* Display Events */}
-      <h3 className="text-xl font-semibold mt-6 mb-2">Your Events</h3>
+      <h3 className="mb-4 mt-6 text-center text-xl font-semibold">
+        Your Events
+      </h3>
+
       {isLoading ? (
-        <p>Loading events...</p>
+        <p className="text-center">Loading events...</p>
+      ) : data?.events.length === 0 ? (
+        <p className="text-center text-gray-500">No events created yet.</p>
       ) : (
-        <ul className="space-y-2">
-          {data?.events.map((event) => (
-            <li
-              key={event.eventId}
-              className="p-4 border rounded shadow flex justify-between items-center"
-            >
-              <div>
-                <p className="font-medium">{event.eventName}</p>
-                <p className="text-gray-500">{new Date(event.eventDate).toLocaleString()}</p>
-              </div>
-            </li>
-          ))}
-          {data?.events.length === 0 && <p>No events created yet.</p>}
-        </ul>
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto border-collapse border border-gray-300 shadow-md">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border px-4 py-2 text-left">Event Name</th>
+                <th className="border px-4 py-2 text-left">Event Date</th>
+                <th className="border px-4 py-2 text-left">Event Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.events.map((event) => {
+                const eventDate = new Date(event.eventDate);
+                const date = eventDate.toLocaleDateString();
+                const time = eventDate.toLocaleTimeString();
+
+                return (
+                  <tr key={event.eventId} className="hover:bg-gray-100">
+                    <td className="border px-4 py-2">{event.eventName}</td>
+                    <td className="border px-4 py-2">{date}</td>
+                    <td className="border px-4 py-2">{time}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

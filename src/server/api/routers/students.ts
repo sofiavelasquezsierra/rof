@@ -1,3 +1,4 @@
+// Sofia Velasquez-Sierra and Saiyid Kazmi
 import { z } from "zod";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { and, eq, isNull } from "drizzle-orm";

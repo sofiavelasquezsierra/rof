@@ -1,3 +1,4 @@
+//Saiyid Kazmi and Sofia Velasquez
 import React from "react";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import SignedOutPopup from "../_components/SignedOutPopup";

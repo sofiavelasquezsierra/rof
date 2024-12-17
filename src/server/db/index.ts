@@ -1,3 +1,4 @@
+// Sofia Velasquez-Sierra
 import * as schema from "./schema";
 
 // src/db.ts

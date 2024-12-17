@@ -1,3 +1,4 @@
+// Sofia Velasquez-Sierra
 import React from "react";
 import { ClubDashboard } from "../_components/clubDashboard"; // Ensure the correct import path
 import { auth } from "@clerk/nextjs/server";
