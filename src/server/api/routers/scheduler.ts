@@ -53,7 +53,7 @@ export const eventRouter = createTRPCRouter({
     }),
 
   // Query to fetch events associated with the club
-  getClubEvents: protectedProcedure.query(async ({ ctx }) => {
+  getClubEvents: publicProcedure.query(async ({ ctx }) => {
     const { userId } = await auth();
   
     if (!userId) {
