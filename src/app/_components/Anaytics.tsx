@@ -27,10 +27,10 @@ export function UserClubAnalytics(): JSX.Element {
       {error && <p className="mt-4 text-red-500">{error}</p>}
       {/* Display aggregated analytics with club stats */}
       {aggregatedAnalyticsData ? (
-        <div className="mt-6 w-full max-w-lg rounded bg-gray-100 p-6 shadow">
+        <div className="mt-6 w-full max-w-lg rounded bg-gray-100 p-6 bg-white rounded-lg shadow-lg">
           <table className="min-w-full bg-white">
             <thead>
-              <tr>
+              <tr className="bg-gray-200">
                 <th className="py-2 px-4 border-b">Club Name</th>
                 <th className="py-2 px-4 border-b">Total Students</th>
                 <th className="py-2 px-4 border-b">Year</th>
@@ -39,7 +39,7 @@ export function UserClubAnalytics(): JSX.Element {
             </thead>
             <tbody>
               <tr>
-                <td className="py-2 px-4 border-b">{aggregatedAnalyticsData.club.clubName}</td>
+                <td className="py-2 px-4 border-b font-bold text-purple-600">{aggregatedAnalyticsData.club.clubName}</td>
                 <td className="py-2 px-4 border-b">{aggregatedAnalyticsData.totalStudents}</td>
                 <td className="py-2 px-4 border-b" colSpan={2}>
                   <table className="min-w-full bg-white">
