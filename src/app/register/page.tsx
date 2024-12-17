@@ -14,16 +14,9 @@ export default async function RegisterStudentPage() {
     redirect("/sign-in");
   }
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <SideBarClub />
-
-      {/* Main Content */}
-      <main
-        className={`flex-1 transition-all duration-300 ml-16 md:ml-64 p-6`}
-      >
+    <div>
+        <SideBarClub />
         <RegisterForm />
-      </main>
     </div>
   );
 }

@@ -63,7 +63,9 @@ const RegisterForm = () => {
   };
 
   return (
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg content-center items-center">
+    <div className="flex w-screen flex-col items-center justify-center min-h-screen px-4 sm:px-16">
+    {/* Ensure the form is centered and has fixed max-width */}
+    <div className="max-w-4xl bg-white rounded-lg shadow-lg p-8">
         <h2 className="mb-6 text-center text-2xl font-bold">
           Register a New Student
         </h2>
@@ -196,6 +198,7 @@ const RegisterForm = () => {
           <p className="mt-4 text-center font-medium text-red-600">{error}</p>
         )}
       </div>
+    </div>
   );
 };
 

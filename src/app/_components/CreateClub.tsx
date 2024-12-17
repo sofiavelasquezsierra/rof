@@ -34,13 +34,14 @@ export function CreateClub(): JSX.Element {
   };
 
   return (
-    <div className="flex mt-10 items-center justify-center bg-gray-50">
-      <div className="w-1/2 max-w-md rounded bg-gray-100 p-8 shadow-md">
+    <div className="flex w-screen flex-col items-center mt-10 min-h-screen px-4 sm:px-16">
+    {/* Ensure the form is centered and has fixed max-width */}
+    <div className="max-w-4xl bg-white rounded-lg shadow-lg p-8">
         <h2 className="mb-4 text-center text-xl font-bold">
           Create a New Club
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+          <div className="ml-10 pl-10">
             <label
               htmlFor="clubName"
               className="block text-sm font-medium text-gray-700"
