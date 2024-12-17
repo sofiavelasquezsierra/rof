@@ -9,7 +9,7 @@ const Page = async () => {
 
   return (
     <div>
-      <main>
+      <main className="flex flex-col items-center justify-start pt-10">
         <SignedOut>
           <SignedOutPopup />
         </SignedOut>
@@ -27,7 +27,7 @@ const Page = async () => {
           </ul>
         ))} */}
 
-      <img src="/assets/IMG_1255.jpg" alt="Logo" className="h-40 justify-center"/>
+      <img src="/assets/IMG_1255.jpg" alt="Logo" className="h-40"/>
       </main>
     </div>
   );
