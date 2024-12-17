@@ -26,4 +26,4 @@ export default async function RegisterStudentPage() {
       </main>
     </div>
   );
-};
+}
