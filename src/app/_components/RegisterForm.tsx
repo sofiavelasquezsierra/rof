@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
 import { api } from "~/trpc/react";
 
@@ -31,15 +30,21 @@ const RegisterForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const { user } = useUser();
-  if (!user) {
-    return <p className="text-center w-screen mt-10 text-red-500">Please sign in to view the dashboard.</p>;
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setMessage("");
+
+    if (!/^\d{9}$/.test(formData.studentId)) {
+      setError("Student ID must contain exactly 9 digits.");
+      return;
+    }
+
+    if (formData.role === "") {
+      setError("Please select a role.");
+      return;
+    }
 
     try {
       await createStudentMutation.mutateAsync(formData);
@@ -58,8 +63,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg content-center items-center">
         <h2 className="mb-6 text-center text-2xl font-bold">
           Register a New Student
         </h2>
@@ -163,20 +167,21 @@ const RegisterForm = () => {
             >
               Role
             </label>
-            <input
-              type="text"
+            <select
               id="role"
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter role"
+              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-secondary"
               required
-            />
+              >
+              <option value="Student">Student</option>
+              <option value="Executive">Executive</option>
+              </select>
           </div>
           <button
             type="submit"
-            className="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-black hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="btn w-full rounded-md btn-primary px-4 py-2 font-medium text-black hover:btn-secondary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             disabled={createStudentMutation.status === "pending"}
           >
             {createStudentMutation.status === "pending" ? "Registering..." : "Register"}
@@ -191,7 +196,6 @@ const RegisterForm = () => {
           <p className="mt-4 text-center font-medium text-red-600">{error}</p>
         )}
       </div>
-    </div>
   );
 };
 

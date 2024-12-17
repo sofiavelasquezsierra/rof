@@ -19,6 +19,7 @@ export const studentsRouter = createTRPCRouter({
         studentId: z.string().min(1, "Student ID is required"),
         year: z.string().min(1, "Year is required"),
         role: z.string().min(1, "Role is required"),
+        email: z.string().email().min(1, "Email is required"),
         })
     )
 
@@ -64,7 +65,7 @@ export const studentsRouter = createTRPCRouter({
         await ctx.db.insert(students).values({
             student_id: input.studentId,
             fname: input.fname,
-            email: "",
+            email: input.email,
             lname: input.lname,
             year: input.year,
             role: input.role,
