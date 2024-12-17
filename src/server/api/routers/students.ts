@@ -24,6 +24,11 @@ export const studentsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
         const authResult = await auth();
         const { userId } = authResult; // get the user ID
+  
+        if (!userId) {
+          throw new Error("Authentication required");
+        }
+
         let adminEmail = "";
         if (userId) {
           const clerkClientInstance = await clerkClient();

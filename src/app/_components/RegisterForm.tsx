@@ -1,4 +1,5 @@
 "use client";
+import { useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
 import { api } from "~/trpc/react";
 
@@ -29,6 +30,11 @@ const RegisterForm = () => {
 
     setFormData({ ...formData, [name]: value });
   };
+
+  const { user } = useUser();
+  if (!user) {
+    return <p className="text-center w-screen mt-10 text-red-500">Please sign in to view the dashboard.</p>;
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
