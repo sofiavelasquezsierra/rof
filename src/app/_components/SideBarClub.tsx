@@ -38,21 +38,24 @@ const SideBarClub: React.FC = () => {
   return (
     <div
       className={`fixed top-16 left-0 h-full bg-gray-800 text-white shadow-lg transition-all duration-300 ${
-        expanded ? "w-64" : "w-16"
+        expanded ? "w-32" : "w-16"
       }`}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
       <div className="flex flex-col h-full p-2">
-        <h1 className={`text-lg font-bold p-4 text-center ${expanded ? "block" : "hidden"}`}>Menu</h1>
+        <h1
+          className={`text-lg font-bold p-4 text-center ${
+            expanded ? "block" : "hidden"
+          }`}
+        >
+          Menu
+        </h1>
         <ul className="flex flex-col gap-4 mt-4">
           {!hasClub && (
             <li>
               <Link href="/create-club">
-                <button
-                  className="btn btn-primary w-full"
-                  title="Create Club"
-                >
+                <button className="btn btn-primary w-full" title="Create Club">
                   {expanded ? "Create Club" : "C"}
                 </button>
               </Link>
@@ -81,7 +84,10 @@ const SideBarClub: React.FC = () => {
           </li>
           <li>
             <Link href="/register">
-              <button className="btn btn-accent w-full" title="Register Student">
+              <button
+                className="btn btn-accent w-full"
+                title="Register Student"
+              >
                 {expanded ? "Register Student" : "R"}
               </button>
             </Link>
