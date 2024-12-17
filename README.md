@@ -1,12 +1,34 @@
-# Create T3 App
+URL: https://rof-zyb9.vercel.app/
+
+Team Table
+- Saiyid Kazmi (260981271) [register, create-club, club, sign-in/sign-up, student, topnav, sidebar, authentication]
+- Sofia Velasquez-Sierra [dashbaord, verify, club, student, db]
+- Aditya Makhija [analytics, scheduler]
+
+## The associated features to the team members indicate full stack dev by each member, meaning front-en, back-en, api routes/functions.
+## The days of excel sheets and messy word docs that never get passed to the next generation of execs is over, we've built a web-app that allows club admins/founders to create a club, register and manage students, and find interesting information about these students as well, all while creating our own in-house verification process using student IDs.
+
+5 Private Pages with Database Integration
+- Create-Club
+- Register Student
+- Analytics
+- Dashboard
+- Scheduler
+
+4-5 Private Pages with / without Databse Integration
+- Landing (Page/Layout)
+- Sign-in
+- Sign-up
+- Verify
+- Popup Page to Prevent Signed In Users
+
+
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 ## What's next? How do I make an app with this?
 
 We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
@@ -45,3 +67,5 @@ to install:
 - npm install @neondatabase/serverless
 - npm install drizzle-orm neon dotenv
 - npm install uploadthing @uploadthing/react
+
+
