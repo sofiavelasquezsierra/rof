@@ -27,8 +27,7 @@ const Page = async () => {
           </ul>
         ))} */}
 
-        <h1 className="text-center mt-6 text-2xl font-bold">Users Page</h1>
-        <p className="text-center">{new Date().toLocaleTimeString()}</p>
+      <img src="/assets/IMG_1255.jpg" alt="Logo" className="h-40 justify-center"/>
       </main>
     </div>
   );

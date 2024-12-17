@@ -76,7 +76,7 @@ const VerifyStudent: React.FC = () => {
       <SignedIn>
         <div className="mt-10 flex justify-center">
           <button
-            className="btn bg-blue-500 px-6 py-3 font-bold text-white hover:bg-blue-700"
+            className="btn bg-primary px-6 py-3 font-bold text-white hover:bg-secondary"
             onClick={() => setShowModal(true)}
           >
             Admin Popup
