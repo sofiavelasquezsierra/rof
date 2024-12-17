@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { clubs, studentClubs, students } from "~/server/db/schema";
 import {
     createTRPCRouter,
@@ -11,6 +11,8 @@ import {
 
   
   export const dashboardRouter = createTRPCRouter({
+    
+    //Fetch Students in Club
     clubDashboard: publicProcedure
     .input(z.object({}).optional()) // Ensure it's optional or an empty object is sent
     .query(async ({ ctx }) => {
@@ -68,6 +70,50 @@ import {
         },
         students: studentsInClub,
       };
+    }),
+
+
+    //Delete Students from a Club
+    deleteStudent: publicProcedure
+    .input(
+      z.object({
+        studentId: z.string().nonempty("Student ID is required"),
+        clubId: z.string().nonempty("Club ID is required"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { studentId, clubId } = input;
+
+      // Check if the student is part of the specified club
+      const studentInClub = await ctx.db
+        .select()
+        .from(studentClubs)
+        .where(
+          and(
+            eq(studentClubs.studentId, studentId),
+            eq(studentClubs.clubId, clubId)
+          )
+        )
+        .limit(1);
+
+      if (studentInClub.length === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Student is not part of the specified club",
+        });
+      }
+
+      // Remove the student from the club
+      await ctx.db
+        .delete(studentClubs)
+        .where(
+          and(
+            eq(studentClubs.studentId, studentId),
+            eq(studentClubs.clubId, clubId)
+          )
+        );
+
+      return { success: true, message: "Student removed successfully" };
     }),
   });
   
