@@ -54,7 +54,7 @@ export function ClubDashboard(): JSX.Element {
   const { club, students } = data;
 
   return (
-    <div className="flex w-screen flex-col items-center justify-center min-h-screen px-4 sm:px-16">
+    <div className="flex w-screen flex-col items-center mt-5 min-h-screen px-4 sm:px-16">
     {/* Dashboard Card */}
     <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6 md:p-10">
       <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">

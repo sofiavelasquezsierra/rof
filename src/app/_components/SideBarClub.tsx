@@ -76,7 +76,7 @@ const SideBarClub: React.FC = () => {
             </Link>
           </li>
           <li>
-            <Link href="/calendar">
+            <Link href="/scheduler">
               <button className="btn btn-info w-full" title="Calendar">
                 {expanded ? "Calendar" : "C"}
               </button>

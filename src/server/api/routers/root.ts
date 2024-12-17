@@ -5,6 +5,7 @@ import { dashboardRouter } from "./dashboard"
 import { studentsRouter } from "./students"
 import { clubs, students } from "~/server/db/schema";
 import { register } from "module";
+import { eventRouter } from "./scheduler";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   analytics: analyticsRouter,
   dashboard: dashboardRouter,
   students: studentsRouter,
+  scheduler: eventRouter
 });
 
 // export type definition of API
