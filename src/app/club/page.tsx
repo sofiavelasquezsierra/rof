@@ -4,29 +4,18 @@ import SignedOutPopup from "../_components/SignedOutPopup";
 import SideBarClub from "../_components/SideBarClub";
 
 const Page = async () => {
-  // Replace this with your database call if needed
-  // const students = await db.query.students.findMany();
 
   return (
     <div>
       <main className="flex flex-col items-center justify-start pt-10">
+        <h1 className="text-4xl font-bold text-primary">Welcome to Rof: The McGill Club Portal</h1>
+        <h2 className="text-xl font-medium text-secondary">Use the sidbar on the left to navigate</h2>
         <SignedOut>
           <SignedOutPopup />
         </SignedOut>
         <SignedIn>
           <SideBarClub />
         </SignedIn>
-
-        {/* Example Static Content */}
-        {/* Uncomment and use this when fetching students */}
-        {/* {students.map((student) => (
-          <ul key={student.id}>
-            <li>
-              {student.fname}, {student.email}, {student.lname}
-            </li>
-          </ul>
-        ))} */}
-
       <img src="/assets/IMG_1255.jpg" alt="Logo" className="h-40"/>
       </main>
     </div>

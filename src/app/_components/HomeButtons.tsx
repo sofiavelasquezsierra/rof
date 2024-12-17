@@ -16,7 +16,7 @@ const HomeButtons = () => {
                 </button>
             </Link>
             <p className="mt-2 text-gray-600">
-              As a club, scan student IDs and manage registered students.
+              Club executives can create and manage clubs.
             </p>
           </div>
   
@@ -34,7 +34,7 @@ const HomeButtons = () => {
                 </button>
             </Link>
             <p className="mt-2 text-gray-600">
-              As a student, verify or manage your club registration.
+              As a student, verify registration and join clubs.
             </p>
           </div>
         </div>
