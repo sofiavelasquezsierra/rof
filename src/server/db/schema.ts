@@ -12,8 +12,6 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-import { pgTable, serial, integer, varchar, text } from "drizzle-orm/pg-core"; // added this line for scheduler.ts
-import { clubs } from "./schema"; // Ensure you import the clubs table if needed; added this line for scheduler.ts
 
 
 /**
