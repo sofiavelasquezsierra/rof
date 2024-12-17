@@ -42,10 +42,19 @@ export const clubs = createTable("club", {
   
 });
 
+//  Club Events Table
+export const clubEvents = createTable("club_event", {
+  eventId: uuid("event_id").defaultRandom().notNull().primaryKey(), // Unique ID for the event
+  eventName: varchar("event_name", { length: 255 }).notNull(),
+  eventDate: timestamp("event_date", { withTimezone: true }).notNull(),
+  clubId: varchar("club_id", { length: 255 })
+    .notNull()
+    .references(() => clubs.clubId, { onDelete: "cascade" }), // Foreign key to the clubs table
+});
 
 export const studentClubs = createTable("student_clubs", {
   studentId: varchar("student_id").notNull(),
-  clubId: uuid("club_id").notNull(),
+  clubId: varchar("club_id").notNull(),
 },
 (table) => ({
   compositePk: primaryKey(table.studentId, table.clubId), // Define composite primary key
@@ -62,6 +71,7 @@ export const studentsRelations = relations(students, ({ many }) => ({
 // Define relationships for the `clubs` table
 export const clubsRelations = relations(clubs, ({ many }) => ({
   studentClubs: many(studentClubs), // Link to the junction table
+  events: many(clubEvents), // Link to the events table
 }));
 
 
@@ -77,11 +87,11 @@ export const studentClubsRelations = relations(studentClubs, ({ one }) => ({
   }),
 }));
 
-// Events Table - added this for scheduler.ts
-export const events = pgTable("events", {
-  eventId: serial("event_id").primaryKey(),
-  clubId: integer("club_id").references(() => clubs.clubId), // Foreign key referencing clubs
-  eventName: varchar("event_name", { length: 255 }).notNull(),
-  eventDate: varchar("event_date", { length: 50 }).notNull(), // Use ISO date strings
-  description: text("description"),
-});
+// Define relationships for the `clubEvents` table
+export const clubEventsRelations = relations(clubEvents, ({ one }) => ({
+  club: one(clubs, {
+    fields: [clubEvents.clubId],
+    references: [clubs.clubId],
+  }),
+}));
+

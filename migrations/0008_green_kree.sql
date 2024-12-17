@@ -1,0 +1,1 @@
+ALTER TABLE "rof_student_clubs" ALTER COLUMN "club_id" SET DATA TYPE varchar;
