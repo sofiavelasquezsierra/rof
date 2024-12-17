@@ -1,174 +1,106 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { api } from "~/trpc/react";
+import { Scheduler } from "timers/promises";
+import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-type Event = {
-  id: string;
-  clubName: string;
-  title: string;
-  date: string;
-  description: string;
-  budget: number;
-};
+const EventManager = () => {
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-export default function CreateEventForm(): JSX.Element {
-  const [clubName, setClubName] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [budget, setBudget] = useState<number>(0);
-  const [date, setDate] = useState<string>("");
-  const [events, setEvents] = useState<Event[]>([]); // Events table state
-  const [message, setMessage] = useState<string | null>(null);
-
-  const getUserClub = api.scheduler.getUserClub.useQuery();
-
-  useEffect(() => {
-    if (getUserClub.data?.clubName) {
-      setClubName(getUserClub.data.clubName);
-      setDate(new Date().toISOString()); // Set today's date
-    }
-  }, [getUserClub.data]);
-
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const createEventMutation = api.scheduler.createEvent.useMutation();
+  const { data, refetch, isLoading } = api.scheduler.getClubEvents.useQuery();
+  const { user } = useUser();
+  const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage(null);
+    setError(null);
+    setSuccessMessage(null);
 
-    const newEvent: Event = {
-      id: crypto.randomUUID(), // Generate a unique ID
-      clubName,
-      title,
-      date,
-      description,
-      budget,
-    };
+    try {
+      // Convert eventDate to ISO 8601 with timezone
+      const dateWithTimezone = new Date(eventDate).toISOString();
 
-    setEvents((prevEvents) => [...prevEvents, newEvent]); // Add to events
-    setMessage(`Event "${title}" created successfully!`);
-
-    // Reset form
-    setTitle("");
-    setDate(new Date().toISOString());
-    setDescription("");
-    setBudget(0);
+      await createEventMutation.mutateAsync({
+        eventName,
+        eventDate: dateWithTimezone,
+      });
+      setSuccessMessage("Event created successfully!");
+      setEventName("");
+      setEventDate("");
+      refetch(); // Refresh the event list
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create event.");
+    }
   };
 
-  // Handle delete event
-  const handleDelete = (id: string) => {
-    setEvents((prevEvents) => prevEvents.filter((event) => event.id !== id));
-  };
+  if (!user) {
+    // Redirect user to the login page if not authenticated
+    redirect("/sign-in");
+  }
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center px-6">
-      {/* Event Form */}
-      <div className="w-full max-w-2xl p-8 bg-white rounded-lg shadow-lg mb-8">
-        <h2 className="mb-6 text-2xl font-bold text-center">Create a New Event</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Club Name</label>
-            <input
-              type="text"
-              value={clubName}
-              readOnly
-              className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              placeholder="Enter event title"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Date</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Budget</label>
-            <input
-              type="number"
-              value={budget}
-              onChange={(e) => setBudget(parseFloat(e.target.value))}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              placeholder="Enter event budget"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              rows={3}
-              placeholder="Enter event description"
-              required
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="btn btn-primary w-full"
-          >
-            Create Event
-          </button>
-          
-        </form>
-        {message && <p className="mt-4 text-center text-green-600">{message}</p>}
-      </div>
+    <div className="p-4 max-w-4xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Manage Club Events</h2>
 
-      {/* Event Table */}
-      <div className="w-full max-w-4xl">
-        <h3 className="text-2xl font-semibold text-center mb-4">Created Events</h3>
-        {events.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse border">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="px-4 py-2 border">Club Name</th>
-                  <th className="px-4 py-2 border">Title</th>
-                  <th className="px-4 py-2 border">Date</th>
-                  <th className="px-4 py-2 border">Budget</th>
-                  <th className="px-4 py-2 border">Description</th>
-                  <th className="px-4 py-2 border">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {events.map((event) => (
-                  <tr key={event.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2 border">{event.clubName}</td>
-                    <td className="px-4 py-2 border">{event.title}</td>
-                    <td className="px-4 py-2 border">{event.date}</td>
-                    <td className="px-4 py-2 border">${event.budget}</td>
-                    <td className="px-4 py-2 border">{event.description}</td>
-                    <td className="px-4 py-2 border text-center">
-                      <button
-                        onClick={() => handleDelete(event.id)}
-                        className="btn btn-sm btn-error"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="text-center text-gray-500">No events created yet.</p>
-        )}
-      </div>
+      <form onSubmit={handleCreateEvent} className="space-y-4 mb-6">
+        <div>
+          <label className="block font-medium">Event Name</label>
+          <input
+            type="text"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+            className="w-full p-2 border rounded"
+            placeholder="Enter event name"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-medium">Event Date</label>
+          <input
+            type="datetime-local"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="btn btn-primary w-full"
+          disabled={createEventMutation.status === "pending"}
+        >
+          {createEventMutation.status === "pending" ? "Creating..." : "Create Event"}
+        </button>
+      </form>
+
+      {successMessage && <p className="text-green-500">{successMessage}</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
+      {/* Display Events */}
+      <h3 className="text-xl font-semibold mt-6 mb-2">Your Events</h3>
+      {isLoading ? (
+        <p>Loading events...</p>
+      ) : (
+        <ul className="space-y-2">
+          {data?.events.map((event) => (
+            <li
+              key={event.eventId}
+              className="p-4 border rounded shadow flex justify-between items-center"
+            >
+              <div>
+                <p className="font-medium">{event.eventName}</p>
+                <p className="text-gray-500">{new Date(event.eventDate).toLocaleString()}</p>
+              </div>
+            </li>
+          ))}
+          {data?.events.length === 0 && <p>No events created yet.</p>}
+        </ul>
+      )}
     </div>
   );
-}
+};
+
+export default EventManager;

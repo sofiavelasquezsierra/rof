@@ -9,7 +9,7 @@ import { TopNav } from "./_components/TopNav";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
-  title: "Rofp",
+  title: "Rof",
   description: "McGill Clubs",
   icons: [{ rel: "icon", url: "/logo.jpg" }],
 };
