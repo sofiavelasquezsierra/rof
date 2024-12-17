@@ -1,18 +1,17 @@
 import { z } from "zod";
 import { eq } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
 import {
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { clubs, studentClubs, students } from "~/server/db/schema"; // Include studentClubs and students
+import { clubs, studentClubs, students } from "~/server/db/schema"; 
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
 export const analyticsRouter = createTRPCRouter({
   getUserClubAnalytics: publicProcedure
-    .input(z.object({}).optional()) // Ensure it's optional or an empty object is sent
+    .input(z.object({}).optional()) 
     .query(async ({ ctx }) => {
-      // Use Clerk's auth to get the user ID
       const authResult = await auth();
       const { userId } = authResult;
 
@@ -41,51 +40,71 @@ export const analyticsRouter = createTRPCRouter({
       };
     }),
 
-  getAggregatedAnalytics: publicProcedure.query(async ({ ctx }) => {
-    // Use Clerk's auth to get the user ID
+  getAggregatedAnalytics: publicProcedure
+  .input(z.object({}).optional()) 
+  .query(async ({ ctx }) => {
     const authResult = await auth();
     const { userId } = authResult;
 
     if (!userId) {
-      throw new Error("Authentication required.");
+      throw new Error("Authentication required");
     }
 
-    // Aggregated club data for admin users, with the number of students in each club
-    const clubStats = await ctx.db
+    const clerkClientInstance = await clerkClient();
+    const user = await clerkClientInstance.users.getUser(userId);
+    const userEmail = user?.emailAddresses[0]?.emailAddress;
+
+    if (!userEmail) {
+      throw new Error("User email not found.");
+    }
+
+
+    const adminClub = await ctx.db
       .select({
-        adminEmail: clubs.adminEmail,
         clubId: clubs.clubId,
-        clubName: clubs.clubName, // Assuming there is a clubName field
+        clubName: clubs.clubName,
       })
       .from(clubs)
-      .leftJoin(studentClubs, eq(studentClubs.clubId, clubs.clubId)) // Join studentClubs
-      .leftJoin(students, eq(studentClubs.studentId, students.student_id)) // Correct join condition using `student_id` and `studentId`
-      .groupBy(clubs.adminEmail, clubs.clubId, clubs.clubName); // Group by clubId and adminEmail
+      .where(eq(clubs.adminEmail, userEmail))
+      .limit(1);
 
-    // Now, let's count the number of students per club using `$count`
-    const studentCounts = await ctx.db
+    if (adminClub.length === 0) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "No club found associated with your account" });
+    }
+
+    const clubId = adminClub[0]!.clubId;
+
+    const studentsInClub = await ctx.db
       .select({
-        clubId: studentClubs.clubId,
-        studentCount: ctx.db.$count(studentClubs.studentId).as("studentCount"), // Correct usage of $count
+      studentId: students.student_id,
+      fname: students.fname,
+      lname: students.lname,
+      email: students.email,
+      role: students.role,
+      year: students.year,
       })
-      .from(studentClubs)
-      .groupBy(studentClubs.clubId);
+      .from(students)
+      .innerJoin(studentClubs, eq(students.student_id, studentClubs.studentId))
+      .where(eq(studentClubs.clubId, clubId));
 
-    // Merge the clubStats and studentCounts
-    const statsWithStudentCount = clubStats.map((club) => {
-      const studentCount =
-        studentCounts.find((count) => count.clubId === club.clubId)
-          ?.studentCount || 0;
-
-      return {
-        ...club,
-        studentCount,
-      };
-    });
+    const yearCounts = studentsInClub.reduce((acc: { [key: string]: number }, student) => {
+      acc[student.year] = (acc[student.year] || 0) + 1;
+      return acc;
+    }, {});
 
     return {
-      message: "Aggregated analytics fetched successfully.",
-      stats: statsWithStudentCount,
+      club: {
+      clubId: adminClub[0]!.clubId,
+      clubName: adminClub[0]!.clubName,
+      },
+      totalStudents: studentsInClub.length,
+      yearCounts: {
+      U0: yearCounts["U0"] || 0,
+      U1: yearCounts["U1"] || 0,
+      U2: yearCounts["U2"] || 0,
+      U3: yearCounts["U3"] || 0,
+      "U3+": yearCounts["U3+"] || 0,
+      },
     };
   }),
 });

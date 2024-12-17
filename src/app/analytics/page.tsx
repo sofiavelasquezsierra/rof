@@ -1,5 +1,4 @@
 import React from "react";
-import { CreateClub } from "../_components/CreateClub"; // Ensure the correct import path
 import { UserClubAnalytics } from "../_components/Anaytics";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
