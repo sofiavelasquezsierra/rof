@@ -119,10 +119,11 @@ export default function CreateEventForm(): JSX.Element {
           </div>
           <button
             type="submit"
-            className="btn w-full btn-primary hover:btn-secondary"
+            className="btn btn-primary w-full"
           >
             Create Event
           </button>
+          
         </form>
         {message && <p className="mt-4 text-center text-green-600">{message}</p>}
       </div>

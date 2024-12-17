@@ -39,7 +39,7 @@ export function UserClubAnalytics(): JSX.Element {
             </thead>
             <tbody>
               <tr>
-                <td className="py-2 px-4 border-b font-bold text-purple-600">{aggregatedAnalyticsData.club.clubName}</td>
+                <td className="py-2 px-4 border-b font-bold text-primary">{aggregatedAnalyticsData.club.clubName}</td>
                 <td className="py-2 px-4 border-b">{aggregatedAnalyticsData.totalStudents}</td>
                 <td className="py-2 px-4 border-b" colSpan={2}>
                   <table className="min-w-full bg-white">

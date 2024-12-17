@@ -53,7 +53,7 @@ export function CreateClub(): JSX.Element {
               id="clubName"
               value={clubName}
               onChange={(e) => setClubName(e.target.value)}
-              className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
               placeholder="Enter club name"
               required
             />
