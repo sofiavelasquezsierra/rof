@@ -12,6 +12,9 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
+import { pgTable, serial, integer, varchar, text } from "drizzle-orm/pg-core"; // added this line for scheduler.ts
+import { clubs } from "./schema"; // Ensure you import the clubs table if needed; added this line for scheduler.ts
+
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -75,3 +78,12 @@ export const studentClubsRelations = relations(studentClubs, ({ one }) => ({
     references: [clubs.clubId], // Primary key in `clubs`
   }),
 }));
+
+// Events Table - added this for scheduler.ts
+export const events = pgTable("events", {
+  eventId: serial("event_id").primaryKey(),
+  clubId: integer("club_id").references(() => clubs.clubId), // Foreign key referencing clubs
+  eventName: varchar("event_name", { length: 255 }).notNull(),
+  eventDate: varchar("event_date", { length: 50 }).notNull(), // Use ISO date strings
+  description: text("description"),
+});
