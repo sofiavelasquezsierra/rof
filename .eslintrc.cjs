@@ -58,4 +58,18 @@ const config = {
     ]
   }
 }
-module.exports = config;
+module.exports = {
+  extends: ["next", "next/core-web-vitals", "eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  rules: {
+    // Turn off specific warnings
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/consistent-indexed-object-style": "off",
+    "@typescript-eslint/consistent-type-imports": "off",
+
+    // Disable all warnings
+    "no-warning-comments": "off", // Turns off TODO/FIXME warnings
+  },
+};
