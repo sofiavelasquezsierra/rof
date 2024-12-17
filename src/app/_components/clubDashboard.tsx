@@ -19,7 +19,15 @@ export function ClubDashboard(): JSX.Element {
   const [sortConfig, setSortConfig] = useState<{ key: keyof Student; direction: "asc" | "desc" } | null>(null);
 
   // Fetch club dashboard data
-  const { data, isLoading, isError, refetch } = api.dashboard.clubDashboard.useQuery();
+  const { data, isLoading, isError, refetch } = api.dashboard.clubDashboard.useQuery(undefined, {
+    refetchOnWindowFocus: true, // Automatically refetch when window is focused
+    staleTime: 0, // Ensure data is not cached and always refetched
+  });
+
+  // Refetch data on component mount
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   // Delete student mutation
   const deleteStudentMutation = api.dashboard.deleteStudent.useMutation({
