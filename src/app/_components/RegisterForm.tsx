@@ -30,7 +30,6 @@ const RegisterForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -63,9 +62,9 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex w-screen flex-col items-center justify-center min-h-screen px-4 sm:px-16">
-    {/* Ensure the form is centered and has fixed max-width */}
-    <div className="max-w-4xl bg-white rounded-lg shadow-lg p-8">
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center px-4 sm:px-16">
+      {/* Ensure the form is centered and has fixed max-width */}
+      <div className="max-w-4xl rounded-lg bg-white p-8 shadow-lg">
         <h2 className="mb-6 text-center text-2xl font-bold">
           Register a New Student
         </h2>
@@ -155,6 +154,9 @@ const RegisterForm = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               required
             >
+              <option value="" disabled>
+                Select Year
+              </option>
               <option value="U0">U0</option>
               <option value="U1">U1</option>
               <option value="U2">U2</option>
@@ -176,17 +178,22 @@ const RegisterForm = () => {
               onChange={handleChange}
               className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-secondary"
               required
-              >
+            >
+              <option value=""  disabled>
+                Select Role
+              </option>
               <option value="Student">Student</option>
               <option value="Executive">Executive</option>
-              </select>
+            </select>
           </div>
           <button
             type="submit"
             className="btn btn-primary w-full"
             disabled={createStudentMutation.status === "pending"}
           >
-            {createStudentMutation.status === "pending" ? "Registering..." : "Register"}
+            {createStudentMutation.status === "pending"
+              ? "Registering..."
+              : "Register"}
           </button>
         </form>
         {message && (
