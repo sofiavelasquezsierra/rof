@@ -41,7 +41,7 @@ export function CreateClub(): JSX.Element {
           Create a New Club
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="ml-10 pl-10">
+          <div>
             <label
               htmlFor="clubName"
               className="block text-sm font-medium text-gray-700"
