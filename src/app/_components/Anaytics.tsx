@@ -21,14 +21,14 @@ export function UserClubAnalytics(): JSX.Element {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center mt-10">
+    <div className="flex w-screen flex-col items-center mt-10 min-h-screen px-4 sm:px-16">
       <h2 className="mb-4 text-center text-xl font-bold">Club Analytics</h2>
       {isAggregatedLoading ? <p>Loading...</p> : null}
       {error && <p className="mt-4 text-red-500">{error}</p>}
       {/* Display aggregated analytics with club stats */}
       {aggregatedAnalyticsData ? (
         <div className="mt-6 w-full max-w-lg rounded bg-gray-100 p-6 bg-white rounded-lg shadow-lg">
-          <table className="min-w-full bg-white">
+          <table className="min-w-full bg-white overflow-x-auto overflow-y-auto">
             <thead>
               <tr className="bg-gray-200">
                 <th className="py-2 px-4 border-b">Club Name</th>
