@@ -20,17 +20,35 @@ export function ClubDashboard(): JSX.Element {
   // Fetch dashboard data
   const { data, isLoading, isError, refetch } = api.dashboard.clubDashboard.useQuery();
 
+  // Delete Student Mutation
+  const deleteStudentMutation = api.dashboard.deleteStudent.useMutation({
+    onSuccess: () => {
+      refetch(); // Refresh data after deletion
+      setError(null);
+    },
+    onError: (err) => {
+      setError(err.message || "Failed to delete student.");
+    },
+  });
+
+  // Handle Deleting a Student
+  const handleDeleteStudent = (studentId: string, clubId: string) => {
+    const confirmDelete = confirm("Are you sure you want to remove this student?");
+    if (confirmDelete) {
+      deleteStudentMutation.mutate({ studentId, clubId });
+    }
+  };
 
   if (!user) {
-    return <p className="text-center w-screen mt-10 text-red-500">Please sign in to view the dashboard.</p>;
+    return <p className="text-center mt-10 text-red-500">Please sign in to view the dashboard.</p>;
   }
 
   if (isLoading) {
-    return <p className="text-center w-screen mt-10">Loading...</p>;
+    return <p className="text-center mt-10">Loading...</p>;
   }
 
   if (isError || !data) {
-    return <p className="text-center mt-10 w-screen text-red-500">Failed to load dashboard data.</p>;
+    return <p className="text-center mt-10 text-red-500">Failed to load dashboard data.</p>;
   }
 
   const { club, students } = data;
@@ -56,7 +74,7 @@ export function ClubDashboard(): JSX.Element {
                 <th className="px-4 py-2 border text-left">Role</th>
                 <th className="px-4 py-2 border text-left">Year</th>
                 <th className="px-4 py-2 border text-center">Verification Status</th>
-                
+                <th className="px-4 py-2 border text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -64,7 +82,7 @@ export function ClubDashboard(): JSX.Element {
                 <tr
                   key={student.studentId}
                   className={`hover:bg-gray-100 ${
-                    !student.emailVerified ?  " " : ""
+                    !student.emailVerified ? "" : ""
                   }`}
                 >
                   <td className="px-4 py-2 border">{student.fname}</td>
@@ -74,14 +92,21 @@ export function ClubDashboard(): JSX.Element {
                   <td className="px-4 py-2 border">{student.year}</td>
                   <td className="px-4 py-2 border text-center">
                     {student.emailVerified ? (
-                      <span className="text-primary">Verified</span>
+                      <span className="text-primary ">Verified</span>
                     ) : (
-                      <span className="text-secondary">
+                      <span className="text-secondary  ">
                         Pending Verification
                       </span>
                     )}
                   </td>
-                  
+                  <td className="px-4 py-2 border text-center">
+                    <button
+                      onClick={() => handleDeleteStudent(student.studentId, club.clubId)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
