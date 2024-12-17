@@ -2,6 +2,8 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { ClerkProvider } from "@clerk/nextjs";
+import Image from "next/image";
+
 export function TopNav() {
   return (
     <div className="navbar bg-secondary">
