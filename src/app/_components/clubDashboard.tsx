@@ -81,6 +81,8 @@ export function ClubDashboard(): JSX.Element {
               <th className="px-4 py-2 border text-left whitespace-nowrap">Role</th>
               <th className="px-4 py-2 border text-left whitespace-nowrap">Year</th>
               <th className="px-4 py-2 border text-center whitespace-nowrap">Verification Status</th>
+              <th className="px-4 py-2 border text-center">Actions</th>
+
             </tr>
           </thead>
           <tbody>
@@ -103,6 +105,14 @@ export function ClubDashboard(): JSX.Element {
                     </span>
                   )}
                 </td>
+                <td className="px-4 py-2 border text-center">
+                    <button
+                      onClick={() => handleDeleteStudent(student.studentId, club.clubId)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </td>
               </tr>
             ))}
           </tbody>

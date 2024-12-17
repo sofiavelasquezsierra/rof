@@ -117,6 +117,38 @@ import {
       return { success: true, message: "Student removed successfully" };
     }),
 
-    
+    //Resend verification email
+  resendVerificationEmail: publicProcedure
+  .input(
+    z.object({
+      studentId: z.string().nonempty(),
+      email: z.string().email(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const { studentId, email } = input;
+
+    // Validate if the student exists and is not yet verified
+    const student = await ctx.db
+      .select()
+      .from(students)
+      .where(
+        and(eq(students.student_id, studentId), eq(students.email, email), isNull(students.emailVerified))
+      )
+      .limit(1);
+
+    if (!student.length) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Student not found or already verified.",
+      });
+    }
+
+    // Simulate sending email (integrate real email service here)
+    console.log(`Verification email resent to ${email}.`);
+
+    return { success: true, message: "Verification email resent successfully." };
+  }),
+
   });
   
