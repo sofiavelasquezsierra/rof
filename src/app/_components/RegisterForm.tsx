@@ -83,7 +83,7 @@ const RegisterForm = () => {
               name="fname"
               value={formData.fname}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               required
             />
           </div>
@@ -100,7 +100,7 @@ const RegisterForm = () => {
               name="lname"
               value={formData.lname}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               required
             />
           </div>
@@ -117,7 +117,7 @@ const RegisterForm = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               placeholder="example@email.com"
               required
             />
@@ -135,7 +135,7 @@ const RegisterForm = () => {
               name="studentId"
               value={formData.studentId}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               placeholder="9-digit Student ID"
               required
             />
@@ -152,7 +152,7 @@ const RegisterForm = () => {
               name="year"
               value={formData.year}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               required
             >
               <option value="U0">U0</option>
@@ -183,7 +183,7 @@ const RegisterForm = () => {
           </div>
           <button
             type="submit"
-            className="btn w-full rounded-md btn-primary px-4 py-2 font-medium text-black hover:btn-secondary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="btn btn-primary w-full"
             disabled={createStudentMutation.status === "pending"}
           >
             {createStudentMutation.status === "pending" ? "Registering..." : "Register"}
