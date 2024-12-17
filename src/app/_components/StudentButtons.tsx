@@ -1,10 +1,12 @@
 "use client";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const StudentButtons = () => {
   const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(true);
 
   return (
     <div className="mt-10 flex flex-row items-center justify-center space-x-10">
@@ -28,37 +30,30 @@ const StudentButtons = () => {
 
       {/* Student Button */}
       <SignedIn>
-        <div className="text-center">
-          <button
-            className="btn bg-red-500 px-6 py-3 font-bold text-white hover:bg-red-700"
-            onClick={() => setShowAdminModal(true)}
-          >
-            Admin Notice
-          </button>
-
-          {/* Admin Modal */}
-          {showAdminModal && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
-                <h2 className="mb-4 text-center text-2xl font-bold text-gray-800">
-                  Admin Notice
-                </h2>
-                <p className="mb-6 text-center text-gray-600">
-                  Only club admins should be signed-in. Please sign out using the top right corner if you are a student.
+      {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="modal modal-open">
+              <div className="modal-box text-center">
+                <h2 className="text-2xl font-bold mb-4">Sign Out & Verify</h2>
+                <p className="mb-6 text-gray-600">
+                  To access the student verification page, please sign out.
                 </p>
-                <div className="flex justify-center space-x-4">
-                  <button
-                    onClick={() => setShowAdminModal(false)}
-                    className="btn bg-gray-300 px-6 py-3 text-gray-700 hover:bg-gray-400"
-                  >
-                    Close
+                <SignOutButton redirectUrl="/verify">
+                  <button className="btn btn-primary w-full">
+                    Sign Out and Verify
                   </button>
-                </div>
+                </SignOutButton>
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="btn btn-secondary w-full mt-4"
+                >
+                  Close
+                </button>
               </div>
             </div>
-          )}
-        </div>
-      </SignedIn>
+          </div>
+        )}
+    </SignedIn>
     </div>
   );
 };
