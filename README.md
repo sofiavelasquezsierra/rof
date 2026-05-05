@@ -1,71 +1,101 @@
-URL: https://rof-zyb9.vercel.app/
+# ROF — Student Club Management Platform
+
+**Replace the Excel sheets and Word docs that die with every graduating exec board.**
+
+🔗 [Live App](https://rof-zyb9.vercel.app/) &nbsp;|&nbsp; Built with T3 Stack · Deployed on Vercel
+
+---
+
+## The Problem
+
+Every university club runs on informal knowledge: membership lists in Excel, event schedules in Word docs, registration forms in Google Forms that no one can find. When the executive board graduates, that institutional knowledge disappears. The next cohort starts from scratch.
+
+Club admins needed a single, persistent platform — one that survives leadership transitions.
+
+---
+
+## The Solution
+
+ROF is a full-stack club management web app built for university club administrators. It lets them create their organization, register and verify student members, track analytics, and schedule events — all in one place, with role-based access that transfers cleanly when leadership changes.
+
+**Built for:** University clubs with rotating leadership who need persistent, structured member management.
+
+---
+
+## What It Does
+
+| Feature | Description |
+|---|---|
+| **Club Creation** | Founders register their club and set up their admin account |
+| **Student Registration** | Admins register members with an in-house verification flow using student IDs |
+| **Dashboard** | Central view of club membership, status, and activity |
+| **Analytics** | Member data visualized — enrollment trends, demographics, engagement |
+| **Scheduler** | Plan and track club events in one place |
+| **Auth System** | Sign-up, sign-in, email verification, and a guard to prevent double-registration |
+
+**9 pages shipped** — 5 private pages with full database integration, 4 auth/public pages.
+
+---
+
+## Product Decisions Made
+
+**Why build our own verification flow instead of using a third-party auth library for student identity?**
+Third-party auth handles login, not identity. We needed to verify that a registering user is actually a student at our institution — which required a custom flow using student ID upload. Off-the-shelf solutions don't solve that problem.
+
+**Why a popup to prevent signed-in users from re-registering?**
+During beta testing we found that logged-in users would navigate back to the registration page and accidentally create duplicate entries. Rather than a backend deduplication patch, a UI-level guard catches the problem before it happens — cheaper to implement and better UX.
+
+**Why include Analytics as a core feature, not a v2 addition?**
+Club executives pitch to universities and sponsors for funding. They need data. Building analytics in from the start — rather than as an afterthought — meant the data model was designed to support it, not retrofitted onto it.
+
+---
+
+## What We'd Build Next
+
+1. **Leadership transfer flow** — A formal handoff process where outgoing admins transfer permissions to incoming execs, with audit trail
+2. **Email digest** — Weekly summary sent to club admins: new registrations, upcoming events, member engagement
+3. **Multi-club support** — Students can belong to multiple clubs; admins can see cross-club membership overlap
+
+---
+
+## Contributions
+
+Sofia Velasquez Sierra owned: Dashboard, Verify, Club and Student data models, database schema design
+
+Full-stack ownership per feature: each contributor built the front-end, back-end, and API routes for their assigned pages.
+
+**Team:** Sofia Velasquez Sierra · Saiyid Kazmi · Aditya Makhija
+
+---
+
+## Technical Details
+
+**Stack:** T3 (Next.js · TypeScript · React · Prisma · tRPC · Tailwind CSS · NextAuth.js)
+**Database:** PostgreSQL via Neon
+**Deployment:** Vercel
+**File uploads:** UploadThing
+
+---
+
+## Setup
+
+```bash
+git clone https://github.com/sofiavelasquezsierra/rof
+cd rof
+npm install
+cp .env.example .env
+# Add your DATABASE_URL and NEXTAUTH_SECRET to .env
+npx prisma db push
+npm run dev
+```
+
+---
+
+## About
 
 Team Table
-- Saiyid Kazmi (260981271) [register, create-club, club, sign-in/sign-up, student, topnav, sidebar, authentication]
+- Saiyid Kazmi [register, create-club, club, sign-in/sign-up, student, topnav, sidebar, authentication]
 - Sofia Velasquez-Sierra [dashbaord, verify, club, student, db]
 - Aditya Makhija [analytics, scheduler]
 
-## The associated features to the team members indicate full stack dev by each member, meaning front-en, back-en, api routes/functions.
-## The days of excel sheets and messy word docs that never get passed to the next generation of execs is over, we've built a web-app that allows club admins/founders to create a club, register and manage students, and find interesting information about these students as well, all while creating our own in-house verification process using student IDs.
-
-5 Private Pages with Database Integration
-- Create-Club
-- Register Student
-- Analytics
-- Dashboard
-- Scheduler
-
-4-5 Private Pages with / without Databse Integration
-- Landing (Page/Layout)
-- Sign-in
-- Sign-up
-- Verify
-- Popup Page to Prevent Signed In Users
-
-
-
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
-
-## What's next? How do I make an app with this?
-
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-
-## TO DO
-1. []Setup PostgreSQL
-2. [x]Create Skeleton
-3. []Home Page & Global CSS
-4. []User Authentication
-5. []Student Registration Page / Club Registration
-5.1. []OCR API
-6. []Club Dashboard
-7. []Reports
-
-
-to install:
-
-- npm i -D daisyui@latest
-- npm install @neondatabase/serverless
-- npm install drizzle-orm neon dotenv
-- npm install uploadthing @uploadthing/react
-
-
+[LinkedIn](https://linkedin.com/in/sofia-velasquez) · [GitHub](https://github.com/sofiavelasquezsierra)
